@@ -21,6 +21,22 @@ No build tools. No servers. No installation.
 
 ---
 
+## ▶ Live Browser Observatories (GitHub Pages)
+
+Each case below is directly executable in the browser via GitHub Pages.
+No installation. No build. No dependencies.
+
+- **01 — Newton Root Finding (Baseline)**  
+  https://ompshunyaya.github.io/ssum-observatory/01_newton_root/
+
+- **02 — Newton Near-Singular Derivative**  
+  https://ompshunyaya.github.io/ssum-observatory/02_newton_near_singular/
+
+- **03 — Newton Multiple Root**  
+  https://ompshunyaya.github.io/ssum-observatory/03_newton_multiple_root/
+
+---
+
 ## What the Observatory Shows
 
 Classical mathematics answers **what** the result is.
