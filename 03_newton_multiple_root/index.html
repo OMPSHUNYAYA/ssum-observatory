@@ -1,0 +1,100 @@
+<!-- observatory/03_newton_multiple_root/index.html -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SSUM Observatory — 03 Newton Multiple Root</title>
+
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 24px; line-height: 1.35; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 14px 16px; margin: 12px 0; }
+    .muted { color: #666; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border-bottom: 1px solid #eee; padding: 8px 6px; text-align: left; vertical-align: top; }
+    th { font-weight: 650; }
+
+    .pill { display:inline-block; padding:2px 8px; border:1px solid #ccc; border-radius:999px; font-size:12px; margin-left:8px; }
+    .runCell { white-space: nowrap; }
+
+    .ok  { font-weight: 700; }
+    .bad { font-weight: 700; }
+
+    .status-ok   { color: #1a7f37; }
+    .status-warn { color: #b54708; }
+    .status-bad  { color: #d1242f; }
+
+    pre { white-space: pre-wrap; word-break: break-word; margin: 0; }
+  </style>
+</head>
+
+<body>
+  <h1 id="title">SSUM Observatory — 03 Newton Multiple Root</h1>
+  <p id="subtitle" class="muted">Structured Numbers • Classical Correctness • Universal Behavioural Insight</p>
+
+  <div class="card">
+    <h2>What this demonstrates</h2>
+    <div id="what"></div>
+  </div>
+
+  <div class="card">
+    <h2>Inputs</h2>
+    <pre id="inputs"></pre>
+    <p class="muted" style="margin-top:10px;">
+      <b>Legend:</b>
+      <span class="pill">m</span> classical value (unchanged) ·
+      <span class="pill">a</span> bounded step health ·
+      <span class="pill">s</span> bounded step contrast ·
+      <span class="pill">phi_ok</span> must remain true
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Status / Guards</h2>
+    <p class="muted">
+      If a near-zero derivative or NaN/Inf would occur, the demo reports it here instead of failing silently.
+    </p>
+    <pre id="status" class="status-ok">ok</pre>
+  </div>
+
+  <div class="card">
+    <h2>Run Output</h2>
+    <p class="muted">Each row is one Newton iteration step.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>run</th>
+          <th>k</th>
+          <th>m = x_k (classical)</th>
+          <th>f(m)</th>
+          <th>dx</th>
+          <th>a (alignment)</th>
+          <th>s (signature)</th>
+          <th>phi_ok</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Interpretation</h2>
+    <pre id="interpretation"></pre>
+  </div>
+
+  <script src="./ssum_core.js"></script>
+  <script src="./case.js"></script>
+
+  <script>
+    // Defensive: keep status explicitly ok if case.js does not update it
+    window.addEventListener("load", function () {
+      var st = document.getElementById("status");
+      if (st && (!st.textContent || st.textContent.trim().length === 0)) {
+        st.className = "status-ok";
+        st.textContent = "ok";
+      }
+    });
+  </script>
+</body>
+</html>
