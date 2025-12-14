@@ -35,6 +35,9 @@ No installation. No build. No dependencies.
 - **03 — Newton Multiple Root**  
   https://ompshunyaya.github.io/ssum-observatory/03_newton_multiple_root/
 
+- **04 — Hyper-Rotation Geometry (3D ↔ 4D)**  
+  https://ompshunyaya.github.io/ssum-observatory/04_hyper_rotation_geometry/
+
 ---
 
 ## What the Observatory Shows
@@ -43,6 +46,10 @@ Classical mathematics answers **what** the result is.
 
 SSUM reveals **how the result structurally evolves** during computation,
 while always preserving exact classical correctness.
+
+SSUM enables geometric transformations to be observed
+by their structural behaviour,
+not just by their final outcomes.
 
 At every step, the core SSUM guarantee holds:
 
@@ -60,6 +67,7 @@ Each case lives in its own folder and is fully standalone.
 Open the `index.html` file directly in a browser.
 
 ```
+
 ssum-observatory/
 ├── 01_newton_root/
 │   ├── index.html
@@ -75,6 +83,12 @@ ssum-observatory/
 │   ├── index.html
 │   ├── case.js
 │   └── ssum_core.js
+│
+├── 04_hyper_rotation_geometry/
+│   ├── index.html
+│   ├── geometry.js
+│   └── render.js
+
 ```
 
 ---
@@ -91,6 +105,18 @@ even when classical convergence still succeeds.
 ### 03 — Newton Multiple Root
 Reveals silent convergence degradation for multiple roots —
 a known numerical pathology invisible to classical results alone.
+
+### 04 — Hyper-Rotation Geometry (3D ↔ 4D)
+
+Demonstrates how **hidden dimensions introduce structural behaviour**
+during geometric transformation, while preserving exact classical geometry.
+
+A 3D cube is lifted to 4D, rotated in the x–w plane, and projected back to 3D.
+SSUM structural channels observe dimensional drift and edge amplification
+without altering any classical coordinates.
+
+Key observational invariant:
+`scale = 1 / (1 + alpha*w)`
 
 ---
 
