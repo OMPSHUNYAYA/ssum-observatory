@@ -67,7 +67,6 @@ Each case lives in its own folder and is fully standalone.
 Open the `index.html` file directly in a browser.
 
 ```
-
 ssum-observatory/
 ├── 01_newton_root/
 │   ├── index.html
@@ -87,8 +86,8 @@ ssum-observatory/
 ├── 04_hyper_rotation_geometry/
 │   ├── index.html
 │   ├── geometry.js
-│   └── render.js
-
+│   ├── render.js
+│   └── OBSERVATION_NOTES.md
 ```
 
 ---
