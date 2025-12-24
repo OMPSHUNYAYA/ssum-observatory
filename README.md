@@ -21,6 +21,20 @@ No build tools. No servers. No installation.
 
 ---
 
+## **How to Read These Observatories**
+
+Each case in this repository is **not a visualization of results**, but an **observability instrument**.
+
+Classical outputs remain **exact, correct, and unchanged** at all times.  
+The purpose of each observatory is to reveal **how structure, stability, and stress evolve during computation or transformation**, even when classical results appear normal.
+
+If a case appears *simple* or *visual*, this is intentional.  
+The depth lies in the **deterministic invariants, bounded structural signals, and reproducible behaviour**, not in visual complexity.
+
+Each case folder may include brief **observation notes** explaining **what to look for**, **why it matters**, and **which structural properties are being revealed**.
+
+---
+
 ## ▶ Live Browser Observatories (GitHub Pages)
 
 Each case below is directly executable in the browser via GitHub Pages.
