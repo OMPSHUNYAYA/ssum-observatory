@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SSUM Observatory — 05 Structural Attention (Deterministic, No Training)</title>
+
+<style>
+:root{
+  --bg:#0b0f14; --card:#111826; --card2:#0f1622; --fg:#e6edf3; --muted:#9aa4b2;
+  --line:#223045; --ok:#20c997; --warn:#f59f00; --bad:#ff6b6b;
+  --top1:#b08d2b33; --top3:#1e90ff22;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+  --sans: system-ui, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 600px at 20% -10%, #1a2a44 0%, transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, #2a1a44 0%, transparent 55%),
+    var(--bg);
+  color:var(--fg);
+  font-family:var(--sans);
+  line-height:1.35;
+}
+
+.wrap{max-width:1180px;margin:22px auto;padding:0 10px;}
+h1{font-size:22px;margin:0 0 6px;}
+.sub{color:var(--muted);margin-bottom:14px;}
+
+.card{
+  background:linear-gradient(180deg,var(--card),var(--card2));
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+}
+
+.card h2{font-size:14px;margin:0 0 10px;color:#cbd5e1;}
+.muted{color:var(--muted);}
+.row{display:flex;gap:10px;flex-wrap:wrap;}
+
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 10px;border-radius:999px;
+  background:#0b1220;border:1px solid #2b3d5a;font-size:12px;
+}
+.dot{width:10px;height:10px;border-radius:50%;background:#6ea8fe;}
+
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ctl{border:1px solid var(--line);background:#0a1220;border-radius:12px;padding:10px;}
+label{font-size:12px;color:#cbd5e1;font-weight:700;display:block;margin-bottom:6px;}
+.kv{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.kv2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+
+input,select{
+  width:100%;padding:9px;border-radius:10px;
+  border:1px solid #2a3f61;background:#081023;color:var(--fg);
+  font-family:var(--mono);
+}
+
+button{
+  border:1px solid #2a3f61;background:#162338;color:#dbe7f7;
+  padding:7px 12px;border-radius:10px;font-weight:700;cursor:pointer;
+}
+
+.status{padding:10px;border-radius:10px;border:1px solid var(--line);background:#0a1220;}
+.status.ok{color:var(--ok);}
+
+.tableWrap{
+  border:1px solid #16243a;background:#0a1220;border-radius:12px;
+  overflow-x:auto;
+}
+
+table{width:100%;border-collapse:collapse;font-family:var(--mono);min-width:980px;}
+th,td{padding:8px;border-bottom:1px solid #16243a;font-size:12.5px;white-space:nowrap;}
+thead th{position:sticky;top:0;background:#081023;}
+tbody tr.top1{background:var(--top1);}
+tbody tr.top3{background:var(--top3);}
+
+.bar{height:10px;border-radius:999px;background:#0a1220;border:1px solid #1c2a43;min-width:76px;}
+.fill{height:100%;background:linear-gradient(90deg,#6ea8fe,#20c997);}
+
+.codebox{
+  background:#0a1220;border:1px solid var(--line);
+  padding:10px;border-radius:12px;
+  font-family:var(--mono);font-size:12.5px;white-space:pre-wrap;
+}
+
+.hr{height:1px;background:#16243a;margin:12px 0;}
+
+.belowGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.chk{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  font-size:12px;color:#cbd5e1;
+}
+
+.chk input[type="checkbox"]{width:auto;transform:scale(1.1);}
+
+@media(max-width:980px){
+  .controls{grid-template-columns:1fr;}
+  .belowGrid{grid-template-columns:1fr;}
+  table{min-width:1080px;}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <h1>SSUM Observatory — 05 Structural Attention (Deterministic, No Training)</h1>
+  <div class="sub">Structured Numbers • Deterministic Attention • Explainable Compatibility • No Training</div>
+
+  <div class="card">
+    <h2>What this demonstrates</h2>
+    <div class="row">
+      <span class="pill"><span class="dot"></span>No training</span>
+      <span class="pill"><span class="dot" style="background:#20c997"></span>Deterministic</span>
+      <span class="pill"><span class="dot" style="background:#f59f00"></span>Explainable</span>
+      <span class="pill"><span class="dot" style="background:#ff6b6b"></span>phi((m,a,s)) = m</span>
+    </div>
+
+    <div class="controls" style="margin-top:12px">
+      <div class="ctl">
+        <label>Preset</label>
+        <select id="preset">
+          <option value="baseline">baseline</option>
+          <option value="sharp_m">sharp_m</option>
+          <option value="health_first">health_first</option>
+          <option value="signature_first">signature_first</option>
+          <option value="strict_safety">strict_safety</option>
+        </select>
+        <button id="reset" style="margin-top:8px">Reset</button>
+      </div>
+
+      <div class="ctl">
+        <label>Query q (m,a,s)</label>
+        <div class="kv">
+          <input id="q_m" value="0.8000"/>
+          <input id="q_a" value="0.6500"/>
+          <input id="q_s" value="0.2000"/>
+        </div>
+      </div>
+
+      <div class="ctl">
+        <label>Weights (wm, wa, ws)</label>
+        <div class="kv">
+          <input id="wm" value="1.0000"/>
+          <input id="wa" value="0.7500"/>
+          <input id="ws" value="0.3500"/>
+        </div>
+      </div>
+
+      <div class="ctl">
+        <label>Safety gate (a_min, p_bad)</label>
+        <div class="kv2">
+          <input id="a_min" value="0.0500"/>
+          <input id="p_bad" value="0.6000"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctl" style="margin-top:10px">
+      <label>Optional explicit extension</label>
+      <div class="chk">
+        <input id="use_mismatch" type="checkbox"/>
+        <span>Enable signature mismatch penalty: <span style="font-family:var(--mono)">ws2*(s_q - s_j)^2</span></span>
+        <span style="margin-left:auto">
+          <span class="muted">ws2</span>
+          <input id="ws2" value="0.2500" style="width:120px"/>
+        </span>
+      </div>
+    </div>
+
+    <div class="hr"></div>
+
+    <div id="status" class="status ok">ok</div>
+
+    <h2 style="margin-top:14px">Attention Output</h2>
+
+    <div class="tableWrap">
+      <table>
+        <thead>
+          <tr>
+            <th>rank</th><th>j</th>
+            <th>m_j</th><th>a_j</th><th>s_j</th>
+            <th>score</th><th>w_j</th>
+            <th>m_term</th><th>a_term</th><th>s_term</th>
+            <th>penalty</th><th>mismatch</th>
+            <th>m_pct</th><th>a_pct</th><th>s_pct</th><th>pen_pct</th>
+            <th>w_bar</th><th>phi_ok</th>
+          </tr>
+        </thead>
+        <tbody id="out"></tbody>
+      </table>
+    </div>
+
+    <div class="hr"></div>
+
+    <div class="belowGrid">
+      <div class="card">
+        <h2>Weighted collapse</h2>
+        <div class="codebox" id="collapseBox"></div>
+      </div>
+
+      <div class="card">
+        <h2>Score definition (Plain ASCII)</h2>
+        <div class="codebox" id="scoreBox"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const CANDS = [
+    [0.82, 0.7, 0.15],
+    [0.30, 0.9, -0.05],
+    [0.78, 0.2, 0.6],
+    [0.90, -0.1, 0.1],
+    [0.10, 0.4, -0.8],
+    [0.81, 0.55, 0.22]
+  ];
+
+  const PRESETS = {
+    baseline:{wm:1,wa:0.75,ws:0.35,a_min:0.05,p_bad:0.6,ws2:0.25},
+    sharp_m:{wm:1.35,wa:0.55,ws:0.25,a_min:0.05,p_bad:0.6,ws2:0.25},
+    health_first:{wm:0.85,wa:1.10,ws:0.25,a_min:0.05,p_bad:0.6,ws2:0.25},
+    signature_first:{wm:0.9,wa:0.55,ws:0.95,a_min:0.05,p_bad:0.6,ws2:0.25},
+    strict_safety:{wm:1,wa:0.75,ws:0.35,a_min:0.2,p_bad:1.1,ws2:0.25}
+  };
+
+  const el = id => document.getElementById(id);
+  const clamp = x => Math.max(-0.999999, Math.min(0.999999, x));
+
+  function softmax(scores){
+    const m = Math.max(...scores);
+    const e = scores.map(v=>Math.exp(v-m));
+    const s = e.reduce((a,b)=>a+b,0);
+    return e.map(v=>v/s);
+  }
+
+  function compute(){
+    const qm=+el("q_m").value, qa=clamp(+el("q_a").value), qs=clamp(+el("q_s").value);
+    const wm=+el("wm").value, wa=+el("wa").value, ws=+el("ws").value;
+    const a_min=+el("a_min").value, p_bad=+el("p_bad").value;
+    const use_mismatch=el("use_mismatch").checked, ws2=+el("ws2").value;
+
+    let rows=[];
+    for(let j=0;j<CANDS.length;j++){
+      const [mj,aj0,sj0]=CANDS[j];
+      const aj=clamp(aj0), sj=clamp(sj0);
+      const m_term=wm*(qm*mj), a_term=wa*(qa*aj), s_term=ws*(qs*sj);
+      const penalty=(aj<a_min)?-p_bad:0;
+      const mismatch=use_mismatch?ws2*(qs-sj)*(qs-sj):0;
+      const score=m_term+a_term+s_term+penalty-mismatch;
+      const base=Math.abs(m_term)+Math.abs(a_term)+Math.abs(s_term)||1;
+      rows.push({j,mj,aj,sj,m_term,a_term,s_term,penalty,mismatch,score,
+        m_pct:Math.abs(m_term)/base,
+        a_pct:Math.abs(a_term)/base,
+        s_pct:Math.abs(s_term)/base
+      });
+    }
+
+    const w=softmax(rows.map(r=>r.score));
+    rows.forEach((r,i)=>r.w=w[i]);
+    rows.sort((a,b)=>b.w-a.w);
+    rows.forEach((r,i)=>r.rank=i+1);
+
+    let m_out=0,a_out=0,s_out=0;
+    rows.forEach(r=>{
+      m_out+=r.w*r.mj;
+      a_out+=r.w*r.aj;
+      s_out+=r.w*r.sj;
+    });
+
+    el("collapseBox").textContent=
+      "m_out = "+m_out.toFixed(6)+"\n"+
+      "a_out = "+a_out.toFixed(6)+"\n"+
+      "s_out = "+s_out.toFixed(6)+"\n\n"+
+      "phi_ok: true (phi((m_out,a_out,s_out)) = m_out)";
+
+    el("scoreBox").textContent=
+      "score(q,k_j) = wm*(m_q*m_j) + wa*(a_q*a_j) + ws*(s_q*s_j) - p_bad*I(a_j < a_min)\n"+
+      "I(use_mismatch)*ws2*(s_q - s_j)^2";
+
+    const out=el("out"); out.innerHTML="";
+    const wMax=Math.max(...rows.map(r=>r.w));
+    rows.forEach(r=>{
+      const bar=Math.round((r.w/wMax)*100);
+      const tr=document.createElement("tr");
+      if(r.rank===1)tr.className="top1";
+      else if(r.rank<=3)tr.className="top3";
+      tr.innerHTML=
+        "<td>"+r.rank+"</td><td>"+r.j+"</td>"+
+        "<td>"+r.mj.toFixed(4)+"</td>"+
+        "<td>"+r.aj.toFixed(4)+"</td>"+
+        "<td>"+r.sj.toFixed(4)+"</td>"+
+        "<td>"+r.score.toFixed(6)+"</td>"+
+        "<td>"+r.w.toFixed(6)+"</td>"+
+        "<td>"+r.m_term.toFixed(6)+"</td>"+
+        "<td>"+r.a_term.toFixed(6)+"</td>"+
+        "<td>"+r.s_term.toFixed(6)+"</td>"+
+        "<td>"+r.penalty.toFixed(6)+"</td>"+
+        "<td>"+r.mismatch.toFixed(6)+"</td>"+
+        "<td>"+(r.m_pct*100).toFixed(1)+"%</td>"+
+        "<td>"+(r.a_pct*100).toFixed(1)+"%</td>"+
+        "<td>"+(r.s_pct*100).toFixed(1)+"%</td>"+
+        "<td><div class='bar'><div class='fill' style='width:"+bar+"%'></div></div></td>"+
+        "<td>true</td>";
+      out.appendChild(tr);
+    });
+  }
+
+  ["q_m","q_a","q_s","wm","wa","ws","a_min","p_bad","ws2"].forEach(id=>{
+    el(id).addEventListener("input",compute);
+  });
+  el("use_mismatch").addEventListener("change",compute);
+  el("preset").addEventListener("change",e=>{
+    const p=PRESETS[e.target.value];
+    el("wm").value=p.wm; el("wa").value=p.wa; el("ws").value=p.ws;
+    el("a_min").value=p.a_min; el("p_bad").value=p.p_bad; el("ws2").value=p.ws2;
+    compute();
+  });
+  el("reset").addEventListener("click",()=>{
+    el("preset").value="baseline";
+    const p=PRESETS.baseline;
+    el("wm").value=p.wm; el("wa").value=p.wa; el("ws").value=p.ws;
+    el("a_min").value=p.a_min; el("p_bad").value=p.p_bad; el("ws2").value=p.ws2;
+    compute();
+  });
+
+  compute();
+})();
+</script>
+</body>
+</html>
