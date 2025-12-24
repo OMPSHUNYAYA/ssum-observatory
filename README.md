@@ -38,6 +38,9 @@ No installation. No build. No dependencies.
 - **04 — Hyper-Rotation Geometry (3D ↔ 4D)**  
   https://ompshunyaya.github.io/ssum-observatory/04_hyper_rotation_geometry/
 
+- **05 — Structural Attention (Deterministic, No Training)**  
+  https://ompshunyaya.github.io/ssum-observatory/05_structural_attention/
+
 ---
 
 ## What the Observatory Shows
@@ -64,7 +67,7 @@ If ignored, all computations behave exactly like classical mathematics.
 
 Each case lives in its own folder and is fully standalone.
 
-Open the `index.html` file directly in a browser.
+Open the HTML file directly in a browser.
 
 ```
 ssum-observatory/
@@ -88,6 +91,10 @@ ssum-observatory/
 │   ├── geometry.js
 │   ├── render.js
 │   └── OBSERVATION_NOTES.md
+│
+├── 05_structural_attention/
+│   └── Structural_Attention_ssum_observatory_05.html
+
 ```
 
 ---
@@ -116,6 +123,29 @@ without altering any classical coordinates.
 
 Key observational invariant:
 `scale = 1 / (1 + alpha*w)`
+
+### 05 — Structural Attention (Deterministic, No Training)
+
+Demonstrates **attention as a structural compatibility law**, not a learned heuristic.
+
+Each token is represented as a structured triple `(m, a, s)`, and attention scores
+are computed deterministically using explicit, inspectable lane interactions.
+
+Key properties:
+- no training
+- no gradients
+- no probability
+- no hidden state
+- fully explainable score decomposition
+- explicit safety gates
+- closed under structural composition
+
+Structural Attention preserves classical correctness at all times via:
+
+`phi((m, a, s)) = m`
+
+This case establishes attention as a **first-class structural operator**
+suitable for deterministic selection, auditability, and structural field networks.
 
 ---
 
