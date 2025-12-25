@@ -1,0 +1,274 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SSUM Observatory — 06 Structural Stress Revelation (Mechanical Geometry)</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 10px 14px; line-height: 1.25; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+
+    h1 { margin: 0 0 6px 0; font-size: 22px; }
+    h2 { margin: 0 0 10px 0; font-size: 16px; }
+    p { margin: 6px 0; }
+    .muted { color: #666; }
+
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 10px 12px; margin: 8px 0; }
+
+    .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .grow { flex: 1; min-width: 220px; }
+
+    label { font-size: 13px; display: inline-block; }
+    input[type="range"] { width: 320px; max-width: 100%; }
+    select { padding: 4px 8px; border-radius: 8px; border: 1px solid #ccc; background: #fff; }
+
+    .pill {
+      display:inline-block;
+      padding:2px 8px;
+      border:1px solid #ccc;
+      border-radius:999px;
+      font-size:12px;
+      white-space: nowrap;
+      background: #fff;
+    }
+
+    .btn {
+      cursor: pointer;
+      background: #fff;
+      padding: 4px 10px;
+      border: 1px solid #ccc;
+      border-radius: 999px;
+      font-size: 12px;
+      transition: transform 0.05s ease, box-shadow 0.05s ease;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+    }
+    .btn:active { transform: translateY(1px); box-shadow: inset 0 1px 2px rgba(0,0,0,0.18); }
+    .btn:focus { outline: none; }
+
+    .btnbar { display:flex; gap:10px; align-items:center; flex-wrap: wrap; }
+
+    .sticky {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    }
+
+    .controlsHeader { margin-bottom: 10px; }
+    .controlsBody { margin-top: 10px; }
+    .overlayBlock { margin-top: 12px; }
+
+    .overlayLine {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .overlayCheck { margin-left: 6px; transform: translateY(1px); }
+
+    .canvasWrap { padding: 8px 0 0 0; }
+    canvas {
+      width: 100%;
+      height: 62vh;
+      min-height: 360px;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      display: block;
+    }
+
+    pre { margin: 0; white-space: pre-wrap; }
+
+    .compact #controlsTip { display: none; }
+    .compact #mathCard { display: none; }
+
+    .footerNote {
+      margin: 10px 0 0 0;
+      padding: 8px 10px;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      color: #666;
+      font-size: 12px;
+    }
+
+    #hoverTip {
+      position: fixed;
+      left: 12px;
+      bottom: 12px;
+      display: none;
+      max-width: min(820px, calc(100vw - 24px));
+      white-space: pre-wrap;
+      line-height: 1.25;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>SSUM Observatory — 06 Structural Stress Revelation (Mechanical Geometry)</h1>
+  <p class="muted">Deterministic • No training • No solvers • Geometry → latent stress axis → observable instability</p>
+
+  <div class="card sticky" id="controlsCard">
+    <div class="row controlsHeader" style="justify-content:space-between;">
+      <span class="muted">Controls</span>
+      <div class="btnbar">
+        <button id="resetThetaBtn" class="btn" type="button">Reset theta=0</button>
+        <button id="snapshotBtn" class="btn" type="button">Snapshot PNG</button>
+        <button id="copyChecksBtn" class="btn" type="button">Copy console checks</button>
+        <button id="exportBtn" class="btn" type="button">Export JSON</button>
+        <button id="compactBtn" class="btn" type="button">Compact</button>
+      </div>
+    </div>
+
+    <div class="controlsBody">
+      <div class="row">
+        <div class="grow">
+          <label>Geometry preset:</label><br/>
+          <select id="preset">
+            <option value="cube">Uniform Cube (control)</option>
+            <option value="beam">Cantilever Beam (fixed-end hotspot)</option>
+            <option value="notch">Notched Plate / L-Bracket (concentration)</option>
+            <option value="hole">Plate with Hole (classic hotspot)</option>
+          </select>
+        </div>
+
+        <div class="grow">
+          <label>Stress axis mode (drives latent `w`):</label><br/>
+          <select id="stressMode">
+            <option value="xw">x–w rotation (pure)</option>
+            <option value="fixed">constraint proximity (fixed boundary)</option>
+            <option value="corner">corner/notch proximity</option>
+          </select>
+        </div>
+
+        <div class="grow">
+          <label>
+            theta (structural stress parameter):
+            <span id="thetaLabel" class="pill">0.00 rad</span>
+          </label><br/>
+          <input id="theta" type="range" min="0" max="6.283185307" step="0.001" value="0" />
+        </div>
+
+        <div class="grow">
+          <label>
+            alpha (projection sensitivity):
+            <span id="alphaLabel" class="pill">0.65</span>
+          </label><br/>
+          <input id="alpha" type="range" min="0" max="1.5" step="0.01" value="0.65" />
+        </div>
+
+        <div class="grow">
+          <label>
+            k (tanh sensitivity for `a,s`):
+            <span id="kLabel" class="pill">2.20</span>
+          </label><br/>
+          <input id="k" type="range" min="0.6" max="4.0" step="0.1" value="2.2" />
+        </div>
+
+        <div class="grow">
+          <label>
+            Auto-rotate:
+            <span id="autoLabel" class="pill">ON</span>
+          </label><br/>
+          <input id="auto" type="checkbox" checked />
+        </div>
+
+        <div class="grow">
+          <label>
+            Ghost overlay (reference):
+            <span class="pill" id="ghostLabel">ON</span>
+          </label><br/>
+          <input id="ghost" type="checkbox" checked />
+        </div>
+
+        <div class="grow">
+          <label>
+            Projection:
+            <span class="pill" id="projLabel">PERSPECTIVE</span>
+          </label><br/>
+          <label style="font-size:12px;"><input id="ortho" type="checkbox" /> Orthographic</label>
+        </div>
+      </div>
+
+      <div class="row overlayBlock">
+        <div class="grow">
+          <div class="overlayLine">
+            <span class="mono" style="font-size:13px;">Structural overlay (observational only):</span>
+            <span class="pill" id="wLabel">w:[n/a]</span>
+            <span class="pill" id="wAbsLabel">|w|_max=n/a</span>
+            <span class="pill" id="denomLabel">denom_min=n/a</span>
+            <span class="pill" id="scaleLabel">scale_max=n/a</span>
+            <span class="pill" id="aLabel">a_avg=n/a</span>
+            <span class="pill" id="sLabel">s_avg=n/a</span>
+            <input id="overlay" class="overlayCheck" type="checkbox" checked />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p id="controlsTip" class="muted" style="margin-top:10px;">
+      Tip: toggle overlay to see revelation intensity via line thickness and vertex radius. Hover near a vertex to inspect `(x,y,z,w,a,s,denom,scale)`.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Render</h2>
+    <div class="canvasWrap">
+      <canvas id="cv" width="1100" height="520"></canvas>
+    </div>
+  </div>
+
+  <div class="card" id="mathCard">
+    <h2>Math (plain ASCII)</h2>
+    <pre id="math"></pre>
+  </div>
+
+  <div class="footerNote">
+     Deterministic geometric observability; not a physics-based stress/strain method and not a substitute for FEA.
+     Structural channels are informational and phi-preserving. Not for safety-critical use. Shunyaya Structural Universal Mathematics.
+  </div>
+
+  <div class="card" id="hoverTip"></div>
+
+  <script src="./geometry.js"></script>
+  <script src="./render.js"></script>
+
+  <script>
+  (function () {
+    "use strict";
+    var root = document.documentElement;
+
+    var compactBtn = document.getElementById("compactBtn");
+    if (compactBtn) {
+      compactBtn.onclick = function () {
+        root.classList.toggle("compact");
+        compactBtn.textContent = root.classList.contains("compact") ? "Expand" : "Compact";
+      };
+    }
+
+    var copyBtn = document.getElementById("copyChecksBtn");
+    if (copyBtn) {
+      copyBtn.onclick = function () {
+        var text =
+           "window.__model && window.__model.verts && window.__model.verts.length\n" +
+           "window.__model && window.__model.edges && window.__model.edges.length\n" +
+           "window.__verts4_rotated && window.__verts4_rotated.length\n" +
+           "window.__struct && window.__struct.length\n" +
+           "window.__stats\n";
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).catch(function () {
+            try { window.prompt("Copy console checks:", text); } catch (e) {}
+          });
+        } else {
+          try { window.prompt("Copy console checks:", text); } catch (e2) {}
+        }
+      };
+    }
+  })();
+  </script>
+</body>
+</html>
