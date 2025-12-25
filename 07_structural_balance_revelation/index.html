@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SSUM Observatory — Case 07 — Structural Balance Revelation (Leaning Tower of Pisa)</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 28px; line-height: 1.5; }
+    code, pre { background: #f6f8fa; padding: 2px 6px; border-radius: 6px; }
+    a { text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .box { background: #f6f8fa; padding: 14px 16px; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <h1>SSUM Observatory — Case 07</h1>
+  <h2>Structural Balance Revelation (Real-World Monument Geometry — Leaning Tower of Pisa)</h2>
+
+  <p>
+    This case is <b>script-based</b> (Python) and uses a real-world terrestrial LiDAR point cloud (E57).
+    GitHub Pages is used only to host this landing page.
+  </p>
+
+  <div class="box">
+    <p><b>Core principle:</b> Structural channels are observational only and preserve classical correctness:</p>
+    <p><code>phi((m, a, s)) = m</code></p>
+    <p><b>Projection law:</b> <code>scale = 1 / (1 + alpha*w)</code></p>
+  </div>
+
+  <h3>Files</h3>
+  <ul>
+    <li><a href="./pisa_case07_test.py">pisa_case07_test.py</a> — single-run sanity test (writes stats JSON)</li>
+    <li><a href="./pisa_case07_grid.py">pisa_case07_grid.py</a> — multi-pass grid probe + aggregation</li>
+    <li><a href="./pisa_case07_compare_agg.py">pisa_case07_compare_agg.py</a> — compare two CSV runs (agg or raw)</li>
+    <li><a href="./pisa_case07_stats.json">pisa_case07_stats.json</a> — example output from the sanity test</li>
+  </ul>
+
+  <h3>Quick run (local)</h3>
+  <pre><code>python pisa_case07_test.py
+python pisa_case07_grid.py --in Italy_Pisa.e57 --outdir case07_out --seed 7 --points 500000 --passes 3
+python pisa_case07_compare_agg.py --a case07_out/case07_grid_agg.csv --b case07_out_rerun/case07_grid_agg.csv</code></pre>
+
+  <p>
+    Note: You must supply your own E57 point cloud file path.
+  </p>
+</body>
+</html>
