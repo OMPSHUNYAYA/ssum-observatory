@@ -55,6 +55,9 @@ No installation. No build. No dependencies.
 - **05 — Structural Attention (Deterministic, No Training)**  
   https://ompshunyaya.github.io/ssum-observatory/05_structural_attention/
 
+- **06 — Structural Stress Revelation (Geometry-First, No Simulation)**  
+  https://ompshunyaya.github.io/ssum-observatory/06_structural_stress_revelation/
+
 ---
 
 ## What the Observatory Shows
@@ -108,6 +111,12 @@ ssum-observatory/
 │
 ├── 05_structural_attention/
 │   └── Structural_Attention_ssum_observatory_05.html
+│
+├── 06_structural_stress_revelation/
+│   ├── index.html
+│   ├── geometry.js
+│   ├── render.js
+│   └── OBSERVATION_NOTES.md
 
 ```
 
@@ -160,6 +169,44 @@ Structural Attention preserves classical correctness at all times via:
 
 This case establishes attention as a **first-class structural operator**
 suitable for deterministic selection, auditability, and structural field networks.
+
+### 06 — Structural Stress Revelation (Mechanical Geometry)
+
+Demonstrates **geometry-first structural stress observability**
+without material models, solvers, learning, or simulation.
+
+A 3D geometry is lifted into a latent structural dimension,
+subjected to controlled structural excitation,
+and projected back to 3D to reveal **hidden stress concentration,
+instability, and amplification patterns**.
+
+This case exposes **where geometry is structurally vulnerable**
+before any physical deformation occurs.
+
+Key properties:
+- no material assumptions
+- no finite element analysis
+- no numerical solvers
+- no training or data
+- deterministic and reproducible
+- exact classical geometry preserved
+
+Structural amplification emerges through a controlled projection law:
+
+`scale = 1 / (1 + alpha*w)`
+
+Structural channels observe latent stress behaviour
+while always preserving classical correctness via:
+
+`phi((m, a, s)) = m`
+
+This case establishes **latent structural observability**
+as a first-class SSUM capability,
+bridging geometry, mechanics, and explainable design diagnostics.
+
+This case extends the geometric lifting and projection principles
+introduced in Case 04 from dimensional exploration into
+mechanical stress observability.
 
 ---
 
@@ -271,5 +318,6 @@ Implementations that alter classical results, violate boundedness, or introduce 
 
 ## Topics
 
-SSUM, Structural Mathematics, Structured Arithmetic, Deterministic Mathematics, Bounded Arithmetic, Classical Compatible Math, Numerical Stability, Structural Numbers, Behavioural Mathematics, Behaviour-Aware Computing, Open Standard Mathematics, Shunyaya
+SSUM, Structural Mathematics, Structured Arithmetic, Deterministic Mathematics, Bounded Arithmetic, Classical Compatible Math, Numerical Stability, Structural Numbers, Behavioural Mathematics, Behaviour-Aware Computing, Structural Geometry, Stress Observability, Explainable Geometry, Open Standard Mathematics, Shunyaya
+
 
