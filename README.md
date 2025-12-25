@@ -58,6 +58,9 @@ No installation. No build. No dependencies.
 - **06 — Structural Stress Revelation (Geometry-First, No Simulation)**  
   https://ompshunyaya.github.io/ssum-observatory/06_structural_stress_revelation/
 
+- **07 — Structural Balance Revelation (Real-World Monument Geometry — Leaning Tower of Pisa)**  
+  https://ompshunyaya.github.io/ssum-observatory/07_structural_balance_revelation/
+
 ---
 
 ## What the Observatory Shows
@@ -84,7 +87,7 @@ If ignored, all computations behave exactly like classical mathematics.
 
 Each case lives in its own folder and is fully standalone.
 
-Open the HTML file directly in a browser.
+Open the case artifacts directly (browser or script-based, depending on the case).
 
 ```
 ssum-observatory/
@@ -116,6 +119,13 @@ ssum-observatory/
 │   ├── index.html
 │   ├── geometry.js
 │   ├── render.js
+│   └── OBSERVATION_NOTES.md
+│
+├── 07_structural_balance_revelation/
+│   ├── pisa_case07_test.py
+│   ├── pisa_case07_grid.py
+│   ├── pisa_case07_compare_agg.py
+│   ├── pisa_case07_stats.json
 │   └── OBSERVATION_NOTES.md
 
 ```
@@ -207,6 +217,47 @@ bridging geometry, mechanics, and explainable design diagnostics.
 This case extends the geometric lifting and projection principles
 introduced in Case 04 from dimensional exploration into
 mechanical stress observability.
+
+---
+
+### 07 — Structural Balance Revelation (Leaning Tower of Pisa)
+
+Demonstrates that **structural balance is a geometric property before it is an engineering outcome**.
+
+A real terrestrial LiDAR scan of the Leaning Tower of Pisa is examined using
+**deterministic, geometry-first SSUM probes** to test whether visible asymmetry
+corresponds to latent structural instability.
+
+Despite its pronounced tilt, the geometry exhibits:
+- bounded projective scaling
+- stable denominators under excitation
+- seed-invariant structural observables
+- no divergence or amplification collapse
+
+This case shows that **visible tilt does not imply geometric imbalance**.
+
+Key properties:
+- real-world data (LiDAR point cloud)
+- no material assumptions
+- no FEM / FEA
+- no solvers or simulation
+- no training or optimization
+- deterministic and reproducible
+- classical geometry preserved exactly
+
+Structural balance is observed through a controlled projection law:
+
+`scale = 1 / (1 + alpha*w)`
+
+Structural channels remain **purely observational**, preserving classical correctness at all times via:
+
+`phi((m, a, s)) = m`
+
+This case establishes **geometry-first structural balance observability**
+and serves as a real-world validation of SSUM beyond synthetic or idealized models.
+
+A detailed narrative study and full PDF for this case are provided
+in a **separate dedicated repository**, linked from this observatory.
 
 ---
 
