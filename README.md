@@ -259,6 +259,11 @@ and serves as a real-world validation of SSUM beyond synthetic or idealized mode
 A detailed narrative study and full PDF for this case are provided
 in a **separate dedicated repository**, linked from this observatory.
 
+**Data Source Note (Case 07)**  
+This case uses an external, publicly available terrestrial LiDAR dataset of the Piazza del Duomo in Pisa.
+Due to dataset size and external licensing terms, the raw data is not redistributed in this repository.
+Full dataset citation, license information, and acknowledgments are provided in the dedicated Case-07 study repository.
+
 ---
 
 ## What Makes This Different
