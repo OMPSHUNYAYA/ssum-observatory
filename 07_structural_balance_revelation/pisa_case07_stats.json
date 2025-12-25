@@ -1,0 +1,12 @@
+{
+  "points_used": 500000,
+  "minW": -0.2256772961309858,
+  "maxW": 0.31204876562899975,
+  "maxAbsW": 0.31204876562899975,
+  "denom_min_abs": 0.8533097575148592,
+  "scale_max_abs": 1.1719073773542152,
+  "a_avg": -0.23916434172734335,
+  "s_avg": -0.9301867654278334,
+  "elapsed_sec": 1.59,
+  "note": "Observation-only demo. Structural channels are informational and do not alter classical geometry. Not for critical decision-making or safety-critical use. Shunyaya Structural Universal Mathematics (SSUM)."
+}
