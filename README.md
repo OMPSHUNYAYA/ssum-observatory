@@ -61,6 +61,9 @@ No installation. No build. No dependencies.
 - **07 — Structural Balance Revelation (Real-World Monument Geometry — Leaning Tower of Pisa)**  
   https://ompshunyaya.github.io/ssum-observatory/07_structural_balance_revelation/
 
+- **08 — Finite Structural Area Experiment (Squaring the Circle)**  
+  https://ompshunyaya.github.io/ssum-observatory/08_finite_structural_area_experiment/
+
 ---
 
 ## What the Observatory Shows
@@ -127,6 +130,12 @@ ssum-observatory/
 │   ├── pisa_case07_compare_agg.py
 │   ├── pisa_case07_stats.json
 │   └── OBSERVATION_NOTES.md
+│
+├── 08_finite_structural_area_experiment/
+│   ├── index.html
+│   ├── observatory.js
+│   ├── axis_packing.csv
+│   └── rotated_packing.csv
 
 ```
 
@@ -263,6 +272,34 @@ in a **separate dedicated repository**, linked from this observatory.
 This case uses an external, publicly available terrestrial LiDAR dataset of the Piazza del Duomo in Pisa.
 Due to dataset size and external licensing terms, the raw data is not redistributed in this repository.
 Full dataset citation, license information, and acknowledgments are provided in the dedicated Case-07 study repository.
+
+---
+
+### 08 — Finite Structural Area Experiment (Squaring the Circle)
+
+Demonstrates **finite, exact, and fully certified square packing inside a circle**
+using strict geometric containment rules.
+
+Unlike heuristic or asymptotic packing approaches, this case evaluates
+**explicit square lattices** under a **corner-exact analytic invariant**:
+
+`x_corner^2 + y_corner^2 <= R^2`
+
+Key properties:
+- finite enumeration (no infinite limits)
+- strict 4-corner containment
+- deterministic certification (PASS / FAIL)
+- no approximation or tolerance relaxation
+- translation fairness enforced
+- rotation treated as a bounded structural parameter
+
+Both axis-aligned and rotated lattice families are evaluated
+under identical certification rules.
+Improvements occur only at discrete geometric plateaus,
+revealing **structural alignment effects rather than smooth optimization**.
+
+This case reframes “squaring the circle” as a **finite structural geometry problem**,
+fully verifiable in the browser and reproducible by inspection.
 
 ---
 
