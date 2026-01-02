@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Finite Structural Area Experiment — Square-in-Circle Observatory</title>
+
+  <link rel="icon" href="data:,">
+
+  <style>
+    :root{
+      --bg:#070a0f; --panel:#0b1220; --panel2:#0a101c; --text:#e7eefc; --muted:#9fb0cc;
+      --accent:#67a6ff; --good:#22c55e; --bad:#ff4d4d; --warn:#fbbf24;
+    }
+    *{box-sizing:border-box}
+    body{
+      color-scheme:dark; margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background: radial-gradient(1200px 800px at 10% 10%, #0b1730 0%, var(--bg) 55%, #05070a 100%);
+      color:var(--text);
+    }
+    header{
+      padding:14px 18px; border-bottom:1px solid #0f1a2f;
+      background:linear-gradient(180deg,#090d14 0%, rgba(9,13,20,.25) 100%);
+    }
+    header h1{margin:0;font-size:18px;letter-spacing:.2px}
+    header .sub{margin-top:4px;color:var(--muted);font-size:12px}
+
+    .wrap{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 70px)}
+    .side{padding:14px;overflow:auto}
+    .main{padding:14px}
+
+    .card{
+      background:linear-gradient(180deg,var(--panel) 0%, var(--panel2) 100%);
+      border:1px solid #12203a; border-radius:14px;
+      padding:12px; margin-bottom:12px;
+      box-shadow:0 10px 30px rgba(0,0,0,.22);
+    }
+    .h{font-weight:700;font-size:13px;margin:0 0 10px 0;color:#dbe7ff}
+    label{display:block;font-size:12px;color:var(--muted);margin-top:8px}
+    input,select,button{font:inherit}
+    input,select{
+      width:100%; padding:10px; border-radius:10px;
+      border:1px solid #172a4d; background:#071022; color:var(--text); outline:none
+    }
+    input:focus,select:focus{border-color:#2d5ba4;box-shadow:0 0 0 2px rgba(103,166,255,.18)}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .btn{
+      padding:10px 12px; border-radius:12px;
+      border:1px solid #1b2f55; background:#0a162b; color:var(--text);
+      cursor:pointer; user-select:none;
+      transition:transform 0.06s ease, box-shadow 0.06s ease, border-color 0.15s ease;
+    }
+    .btn:hover{border-color:#2d5ba4}
+    .btn.primary{
+      background:linear-gradient(180deg,#0b2d63 0%, #081a33 100%);
+      border-color:#2d5ba4
+    }
+    .btn.pressed{
+      transform:translateY(2px);
+      box-shadow: inset 0 6px 18px rgba(0,0,0,.55);
+    }
+
+    .hidden{display:none}
+
+    .pill{
+      display:inline-block;padding:6px 10px;border-radius:999px;
+      border:1px solid #163158;background:#071022;color:var(--muted);
+      font-size:12px;margin-top:10px
+    }
+    .pill.good{border-color:rgba(34,197,94,.6);color:#b6f7cf}
+    .pill.bad{border-color:rgba(255,77,77,.6);color:#ffb3b3}
+    .pill.warn{border-color:rgba(251,191,36,.6);color:#ffe9a8}
+
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    .small{font-size:12px;color:var(--muted);white-space:pre-wrap}
+    .hint{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.35}
+
+    .vizcard{
+      background:linear-gradient(180deg,var(--panel) 0%, var(--panel2) 100%);
+      border:1px solid #12203a;border-radius:14px;overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,.22)
+    }
+    .vizhead{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:10px 12px;border-bottom:1px solid #12203a
+    }
+    .vizhead .title{font-weight:700;font-size:13px}
+    .vizbody{padding:12px}
+    canvas{
+      width:100%;height:auto;display:block;border-radius:12px;
+      background:#050a12;border:1px solid #0f1a2f
+    }
+    .plotwrap{margin-top:12px}
+
+    footer{padding:10px 18px;border-top:1px solid #0f1a2f;color:var(--muted);font-size:12px}
+
+    @media (max-width: 980px){
+      .wrap{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Finite Structural Area Experiment (FSAE) — Square-in-Circle Observatory</h1>
+    <div class="sub">Exact 4-corner containment. No tolerances. Deterministic verification.</div>
+  </header>
+
+  <div class="wrap">
+    <aside class="side">
+      <div class="card">
+        <div class="h">Load configuration</div>
+
+        <div class="btnrow">
+          <button id="btnDemoA" class="btn primary" type="button">Load Demo A</button>
+          <button id="btnDemoB" class="btn" type="button">Load Demo B</button>
+          <button id="btnManualMode" class="btn" type="button">Manual</button>
+          <button id="btnResetTop" class="btn" type="button">Reset</button>
+        </div>
+
+        <div id="demoStatus" class="pill">Demo: not loaded</div>
+
+        <div id="panelManual" class="hidden" style="margin-top:10px">
+          <label for="fileInput">Centers CSV (columns: cx,cy)</label>
+          <input id="fileInput" type="file" accept=".csv"/>
+          <div id="manualStatus" class="pill">Manual: no file</div>
+          <div class="hint">
+            Tip: If you open this page with <span class="mono">file://</span>, manual files still work.
+            Demos usually need a local server (<span class="mono">python -m http.server</span>).
+          </div>
+        </div>
+
+        <div id="activeBadge" class="pill warn" style="margin-top:12px">Active: none</div>
+      </div>
+
+      <div class="card">
+        <div class="h">1) Radius and square size</div>
+        <div class="row2">
+          <div>
+            <label for="inpR">Circle radius R</label>
+            <input id="inpR" type="number" step="0.0001" value="10"/>
+          </div>
+          <div>
+            <label for="inps">Square side s</label>
+            <input id="inps" type="number" step="0.0001" value="1"/>
+          </div>
+        </div>
+        <div class="hint">
+          Geometry rule: a square is valid only if all four corners satisfy
+          <span class="mono">x^2 + y^2 &lt;= R^2</span>. No epsilon.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="h">2) Structural transform (optional)</div>
+        <label for="inpTheta">Theta (degrees)</label>
+        <input id="inpTheta" type="number" step="0.0001" value="0"/>
+        <label style="margin-top:10px">
+          <input id="chkApplyTheta" type="checkbox" style="width:auto;transform:translateY(1px);margin-right:8px"/>
+          Apply theta rotation to centers before checking
+        </label>
+
+        <div class="btnrow">
+          <button id="btnRecommended" class="btn" type="button">Use recommended theta</button>
+          <button id="btnFit" class="btn" type="button">Fit view</button>
+          <button id="btnReset" class="btn" type="button">Reset</button>
+        </div>
+
+        <div class="hint">
+          When “Apply theta” is ON, centers are rotated by theta for render/plot/verify.
+          This is how you see structural plateaus in <span class="mono">N</span> and <span class="mono">U</span>.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="h">3) Plot options</div>
+        <div class="row2">
+          <div>
+            <label for="inpPlotMin">Theta min (deg)</label>
+            <input id="inpPlotMin" type="number" step="0.1" value="-30"/>
+          </div>
+          <div>
+            <label for="inpPlotMax">Theta max (deg)</label>
+            <input id="inpPlotMax" type="number" step="0.1" value="30"/>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label for="inpPlotSteps">Steps</label>
+            <input id="inpPlotSteps" type="number" step="1" value="241"/>
+          </div>
+          <div>
+            <label for="chkPlotU" style="margin-top:8px">
+              <input id="chkPlotU" type="checkbox" checked style="width:auto;transform:translateY(1px);margin-right:8px"/>
+              Plot utilization U instead of N
+            </label>
+          </div>
+        </div>
+
+        <div class="hint">
+          Plot is recomputed automatically when inputs change. This shows step/plateau behavior.
+          <span class="mono">U=(N*s^2)/(pi*R^2)</span>.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="h">4) Verify and report</div>
+        <div class="btnrow">
+          <button id="btnVerify" class="btn primary" type="button">Verify geometry</button>
+        </div>
+        <div id="verifyOut" class="small" style="margin-top:10px"></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="vizcard">
+        <div class="vizhead">
+          <div class="title">Visualization</div>
+          <div id="quickStatus" class="pill warn">Not verified</div>
+        </div>
+
+        <div class="vizbody">
+          <canvas id="cv" width="1200" height="900"></canvas>
+
+          <div class="plotwrap">
+            <canvas id="plotCv" width="1200" height="320"></canvas>
+            <div id="plotOut" class="small" style="margin-top:8px"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer>Observation only. Shunyaya Structural Universal Mathematics (SSUM).</footer>
+
+  <script src="observatory.js"></script>
+</body>
+</html>
