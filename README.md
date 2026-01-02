@@ -136,6 +136,7 @@ ssum-observatory/
 │   ├── observatory.js
 │   ├── axis_packing.csv
 │   ├── rotated_packing.csv
+│   ├── QUICKSTART.md
 │   └── OBSERVATION_NOTES.md
 
 ```
